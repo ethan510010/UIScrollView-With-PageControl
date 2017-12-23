@@ -14,6 +14,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     let fullScreenSize = UIScreen.main.bounds.size
     
     var sceneArray = ["scene1","scene2","scene3","scene4","scene5","scene6"]
+    
+    var autoCurrentPage: Int = 0 //為了產生自動切頁的效果而外設的參數
 
     @IBOutlet weak var myScrollView: UIScrollView!
     
@@ -52,6 +54,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             self.myScrollView.addSubview(myScrollImageview)
         }
         
+        
+//        //自動切頁
+        Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.autoChanged), userInfo: nil, repeats: true)
     }
     
   
@@ -68,6 +73,22 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    //自動切頁
+    @objc func autoChanged(){
+        let width = fullScreenSize.width
+        self.myPageControll.currentPage = autoCurrentPage
+        let offset = CGPoint(x: width * CGFloat(autoCurrentPage), y: 0)
+        myScrollView.setContentOffset(offset, animated: true)
+        autoCurrentPage += 1
+        if autoCurrentPage == 6{
+            autoCurrentPage = 0
+        }
+        
+    }
+    
+    
 
 
 }
